@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>云南瓦猫工艺制作坊</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <!-- 配置Tailwind自定义主题 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            clay: '#D97652',
+            sand: '#E6C893',
+            kiln: '#5D4037',
+            glaze: '#8D6E63',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .step-line {
+        @apply absolute left-1/2 top-0 bottom-0 w-1 bg-clay -translate-x-1/2 z-0;
+      }
+      .node-dot {
+        @apply w-6 h-6 rounded-full bg-gray-300 transition-all duration-300;
+      }
+      .node-dot.active {
+        @apply bg-white ring-4 ring-clay;
+      }
+      .modal-enter {
+        animation: fadeIn 0.3s ease-out forwards;
+      }
+      .modal-content-enter {
+        animation: slideUp 0.3s ease-out forwards;
+      }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <!-- 顶部标题栏 -->
+  <header class="bg-clay text-white py-4 shadow-md">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-2xl font-bold">云南瓦猫工艺制作坊</h1>
+      <p class="text-sm mt-1 opacity-90">体验非遗手工艺的魅力</p>
+    </div>
+  </header>
+
+  <!-- 主体内容 -->
+  <main class="container mx-auto px-4 py-8">
+    <!-- 流程步骤导航 -->
+    <div class="max-w-4xl mx-auto relative mb-12">
+      <!-- 中间流程线 -->
+      <div class="step-line"></div>
+      
+      <!-- 步骤1：原料制备（左侧） -->
+      <div class="process-step flex items-center gap-4 mb-16 relative justify-start">
+        <!-- 步骤图片 -->
+        <div class="step-image w-32 h-32 rounded-lg overflow-hidden shadow-lg cursor-pointer transition-transform hover:scale-105" data-step="1">
+          <img src="https://picsum.photos/seed/clay/300/300" alt="原料制备" class="w-full h-full object-cover">
+        </div>
+        
+        <!-- 步骤节点 -->
+        <div class="flex flex-col items-center">
+          <div class="node-dot active" data-step="1"></div>
+          <button class="mt-2 px-4 py-1.5 bg-clay text-white rounded-full text-sm font-medium transition-all" data-step="1">
+            原料制备
+          </button>
+        </div>
+      </div>
+      
+      <!-- 步骤2：基础塑形（右侧） -->
+      <div class="process-step flex items-center gap-4 mb-16 relative justify-end">
+        <!-- 步骤节点 -->
+        <div class="flex flex-col items-center">
+          <div class="node-dot" data-step="2"></div>
+          <button class="mt-2 px-4 py-1.5 bg-gray-300 text-gray-700 rounded-full text-sm font-medium transition-all" data-step="2">
+            基础塑形
+          </button>
+        </div>
+        
+        <!-- 步骤图片 -->
+        <div class="step-image w-32 h-32 rounded-lg overflow-hidden shadow-lg cursor-pointer transition-transform hover:scale-105" data-step="2">
+          <img src="https://picsum.photos/seed/shaping/300/300" alt="基础塑形" class="w-full h-full object-cover">
+        </div>
+      </div>
+      
+      <!-- 步骤3：晾晒修整（左侧） -->
+      <div class="process-step flex items-center gap-4 mb-16 relative justify-start">
+        <!-- 步骤图片 -->
+        <div class="step-image w-32 h-32 rounded-lg overflow-hidden shadow-lg cursor-pointer transition-transform hover:scale-105" data-step="3">
+          <img src="https://picsum.photos/seed/dry/300/300" alt="晾晒修整" class="w-full h-full object-cover">
+        </div>
+        
+        <!-- 步骤节点 -->
+        <div class="flex flex-col items-center">
+          <div class="node-dot" data-step="3"></div>
+          <button class="mt-2 px-4 py-1.5 bg-gray-300 text-gray-700 rounded-full text-sm font-medium transition-all" data-step="3">
+            晾晒修整
+          </button>
+        </div>
+      </div>
+      
+      <!-- 步骤4：高温烧制（右侧） -->
+      <div class="process-step flex items-center gap-4 mb-16 relative justify-end">
+        <!-- 步骤节点 -->
+        <div class="flex flex-col items-center">
+          <div class="node-dot" data-step="4"></div>
+          <button class="mt-2 px-4 py-1.5 bg-gray-300 text-gray-700 rounded-full text-sm font-medium transition-all" data-step="4">
+            高温烧制
+          </button>
+        </div>
+        
+        <!-- 步骤图片 -->
+        <div class="step-image w-32 h-32 rounded-lg overflow-hidden shadow-lg cursor-pointer transition-transform hover:scale-105" data-step="4">
+          <img src="https://picsum.photos/seed/fire/300/300" alt="高温烧制" class="w-full h-full object-cover">
+        </div>
+      </div>
+      
+      <!-- 步骤5：装饰赋色（左侧） -->
+      <div class="process-step flex items-center gap-4 relative justify-start">
+        <!-- 步骤图片 -->
+        <div class="step-image w-32 h-32 rounded-lg overflow-hidden shadow-lg cursor-pointer transition-transform hover:scale-105" data-step="5">
+          <img src="https://picsum.photos/seed/paint/300/300" alt="装饰赋色" class="w-full h-full object-cover">
+        </div>
+        
+        <!-- 步骤节点 -->
+        <div class="flex flex-col items-center">
+          <div class="node-dot" data-step="5"></div>
+          <button class="mt-2 px-4 py-1.5 bg-gray-300 text-gray-700 rounded-full text-sm font-medium transition-all" data-step="5">
+            装饰赋色
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 步骤操作浮窗 -->
+  <div id="step-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden modal-enter">
+    <div class="modal-content bg-white rounded-xl p-6 max-w-md w-full shadow-2xl modal-content-enter">
+      <div class="flex justify-between items-center mb-5">
+        <h2 id="modal-title" class="text-xl font-bold text-clay">原料制备：红土与细砂的配比</h2>
+        <button id="close-modal" class="text-gray-500 hover:text-gray-700 transition-colors">
+          <i class="fa fa-times text-xl"></i>
+        </button>
+      </div>
+      
+      <!-- 浮窗内容容器 -->
+      <div id="modal-content">
+        <!-- 原料制备内容 -->
+        <div id="content-1" class="modal-step-content">
+          <div class="mb-4">
+            <h3 class="text-kiln font-semibold mb-2">原料区</h3>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="material-item bg-clay text-white p-4 rounded-lg text-center cursor-grab transition-all active:scale-95" data-material="红土">
+                <i class="fa fa-mountain text-3xl mb-2"></i>
+                <p>红土 (70%)</p>
+              </div>
+              <div class="material-item bg-sand text-kiln p-4 rounded-lg text-center cursor-grab transition-all active:scale-95" data-material="细砂">
+                <i class="fa fa-paint-brush text-3xl mb-2"></i>
+                <p>细砂 (30%)</p>
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <h3 class="text-kiln font-semibold mb-2">配比容器</h3>
+            <div id="mixing-container" class="bg-gray-100 min-h-[150px] rounded-lg flex flex-col items-center justify-center p-4 mb-4">
+              <i class="fa fa-flask text-5xl text-gray-400 mb-2"></i>
+              <p class="text-gray-400">拖拽红土和细砂到这里混合</p>
+              <div id="material-count" class="mt-3 text-sm text-gray-500">
+                红土：0 / 细砂：0
+              </div>
+            </div>
+            <button id="check-mix" class="w-full bg-clay text-white py-2 rounded-lg font-medium transition-all cursor-not-allowed opacity-50">
+              检查配比
+            </button>
+          </div>
+        </div>
+        
+        <!-- 基础塑形内容 (默认隐藏) -->
+        <div id="content-2" class="modal-step-content hidden">
+          <div class="mb-4">
+            <h3 class="text-kiln font-semibold mb-2">瓦猫雏形</h3>
+            <div class="bg-gray-100 rounded-lg p-3 text-center">
+              <img src="https://picsum.photos/seed/basecat/200/200" alt="瓦猫基础雏形" class="w-full rounded-lg">
+            </div>
+          </div>
+          
+          <div>
+            <h3 class="text-kiln font-semibold mb-2">部件选择</h3>
+            <div class="grid grid-cols-3 gap-3 mb-4">
+              <div class="part-item bg-white p-2 rounded-lg border-2 border-sand cursor-pointer transition-all hover:scale-105" data-part="嘴巴">
+                <img src="https://picsum.photos/seed/mouth1/80/80" alt="嘴巴样式1" class="w-full rounded">
+              </div>
+              <div class="part-item bg-white p-2 rounded-lg border-2 border-sand cursor-pointer transition-all hover:scale-105" data-part="嘴巴">
+                <img src="https://picsum.photos/seed/mouth2/80/80" alt="嘴巴样式2" class="w-full rounded">
+              </div>
+              <div class="part-item bg-white p-2 rounded-lg border-2 border-sand cursor-pointer transition-all hover:scale-105" data-part="嘴巴">
+                <img src="https://picsum.photos/seed/mouth3/80/80" alt="嘴巴样式3" class="w-full rounded">
+              </div>
+              <div class="part-item bg-white p-2 rounded-lg border-2 border-sand cursor-pointer transition-all hover:scale-105" data-part="耳朵">
+                <img src="https://picsum.photos/seed/ear1/80/80" alt="耳朵样式1" class="w-full rounded">
+              </div>
+              <div class="part-item bg-white p-2 rounded-lg border-2 border-sand cursor-pointer transition-all hover:scale-105" data-part="耳朵">
+                <img src="https://picsum.photos/seed/ear2/80/80" alt="耳朵样式2" class="w-full rounded">
+              </div>
+              <div class="part-item bg-white p-2 rounded-lg border-2 border-sand cursor-pointer transition-all hover:scale-105" data-part="耳朵">
+                <img src="https://picsum.photos/seed/ear3/80/80" alt="耳朵样式3" class="w-full rounded">
+              </div>
+            </div>
+            <button id="free-draw" class="w-full bg-sand text-kiln py-2 rounded-lg font-medium transition-all">
+              <i class="fa fa-pencil mr-1"></i>自由创作
+            </button>
+          </div>
+        </div>
+        
+        <!-- 晾晒修整内容 (默认隐藏) -->
+        <div id="content-3" class="modal-step-content hidden">
+          <div class="mb-4">
+            <h3 class="text-kiln font-semibold mb-2">阴干区域</h3>
+            <div class="bg-gray-100 rounded-lg p-3 relative">
+              <img src="https://picsum.photos/seed/drying/200/150" alt="阴干架" class="w-full rounded-lg">
+              <div id="drying-timer" class="absolute top-3 right-3 bg-kiln text-white px-2 py-1 rounded-full text-xs">
+                阴干中：00:00
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <h3 class="text-kiln font-semibold mb-2">修整工具</h3>
+            <div class="grid grid-cols-2 gap-3 mb-4">
+              <button class="tool-item bg-gray-200 p-3 rounded-lg text-center transition-all hover:bg-kiln hover:text-white" data-tool="砂纸">
+                <i class="fa fa-file-text-o text-2xl mb-1"></i>
+                <p>砂纸</p>
+              </button>
+              <button class="tool-item bg-gray-200 p-3 rounded-lg text-center transition-all hover:bg-kiln hover:text-white" data-tool="刻刀">
+                <i class="fa fa-cutlery text-2xl mb-1"></i>
+                <p>刻刀</p>
+              </button>
+            </div>
+            <div id="repair-result" class="bg-gray-100 p-3 rounded-lg min-h-[80px] flex items-center justify-center">
+              <p class="text-gray-400 text-sm">阴干完成后可进行修整</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 高温烧制内容 (默认隐藏) -->
+        <div id="content-4" class="modal-step-content hidden">
+          <div class="mb-4">
+            <h3 class="text-kiln font-semibold mb-2">龙窑烧制</h3>
+            <div class="bg-gray-800 rounded-lg p-3 relative">
+              <img src="https://picsum.photos/seed/kiln/200/150" alt="龙窑" class="w-full rounded-lg">
+              <div id="kiln-fire" class="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-yellow-500 w-12 h-6 rounded-t-full opacity-0 transition-opacity"></div>
+            </div>
+          </div>
+          
+          <div>
+            <h3 class="text-kiln font-semibold mb-2">烧制结果</h3>
+            <div id="glaze-result" class="bg-gray-100 rounded-lg p-3 min-h-[120px] flex items-center justify-center mb-4">
+              <p class="text-gray-400 text-sm">点击开始烧制按钮启动龙窑</p>
+              <div id="glaze-colors" class="grid grid-cols-3 gap-2 mt-2 hidden">
+                <div class="glaze-color w-10 h-10 rounded-full bg-amber-500 cursor-pointer transition-transform hover:scale-110" data-color="琥珀色"></div>
+                <div class="glaze-color w-10 h-10 rounded-full bg-gray-600 cursor-pointer transition-transform hover:scale-110" data-color="青灰色"></div>
+                <div class="glaze-color w-10 h-10 rounded-full bg-emerald-500 cursor-pointer transition-transform hover:scale-110" data-color="松绿色"></div>
+              </div>
+            </div>
+            <button id="start-firing" class="w-full bg-glaze text-white py-2 rounded-lg font-medium transition-all">
+              <i class="fa fa-play mr-1"></i>开始烧制
+            </button>
+          </div>
+        </div>
+        
+        <!-- 装饰赋色内容 (默认隐藏) -->
+        <div id="content-5" class="modal-step-content hidden">
+          <div class="mb-4">
+            <h3 class="text-kiln font-semibold mb-2">瓦猫作品</h3>
+            <div class="bg-gray-100 rounded-lg p-3 text-center">
+              <img src="https://picsum.photos/seed/finishcat/200/200" alt="待装饰瓦猫" class="w-full rounded-lg">
+            </div>
+          </div>
+          
+          <div>
+            <h3 class="text-kiln font-semibold mb-2">矿物颜料</h3>
+            <div class="grid grid-cols-4 gap-2 mb-4">
+              <div class="pigment-item bg-amber-600 w-8 h-8 rounded-full cursor-pointer transition-transform hover:scale-110" data-color="赭石黄"></div>
+              <div class="pigment-item bg-blue-600 w-8 h-8 rounded-full cursor-pointer transition-transform hover:scale-110" data-color="石青蓝"></div>
+              <div class="pigment-item bg-red-600 w-8 h-8 rounded-full cursor-pointer transition-transform hover:scale-110" data-color="朱砂红"></div>
+              <div class="pigment-item bg-gray-800 w-8 h-8 rounded-full cursor-pointer transition-transform hover:scale-110" data-color="墨黑色"></div>
+            </div>
+            
+            <h3 class="text-kiln font-semibold mb-2">画笔选择</h3>
+            <div class="flex gap-3 mb-4">
+              <button class="brush-item bg-white border-2 border-gray-300 p-2 rounded-lg transition-all hover:border-clay" data-size="细">
+                <i class="fa fa-paint-brush text-xs"></i>
+              </button>
+              <button class="brush-item bg-white border-2 border-gray-300 p-2 rounded-lg transition-all hover:border-clay" data-size="中">
+                <i class="fa fa-paint-brush text-base"></i>
+              </button>
+              <button class="brush-item bg-white border-2 border-gray-300 p-2 rounded-lg transition-all hover:border-clay" data-size="粗">
+                <i class="fa fa-paint-brush text-lg"></i>
+              </button>
+            </div>
+            
+            <button id="save-work" class="w-full bg-gray-700 text-white py-2 rounded-lg font-medium transition-all">
+              <i class="fa fa-save mr-1"></i>保存作品
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部引导对话框 -->
+  <div id="guide-bar" class="fixed bottom-0 left-0 right-0 bg-kiln text-white p-3 shadow-lg z-40">
+    <div class="container mx-auto flex items-center">
+      <i class="fa fa-lightbulb-o text-yellow-300 mr-3 text-lg"></i>
+      <p id="guide-text" class="text-sm">工艺指导：点击左侧"原料制备"的图片，开始红土与细砂的配比（7:3）</p>
+    </div>
+  </div>
+
+  <script>
+    // 全局变量
+    const stepModal = document.getElementById('step-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const closeModal = document.getElementById('close-modal');
+    const guideText = document.getElementById('guide-text');
+    let currentStep = 1;
+    
+    // 原料制备变量
+    let clayCount = 0;
+    let sandCount = 0;
+    let draggedMaterial = '';
+    
+    // 晾晒修整变量
+    let dryingTime = 0;
+    let dryingInterval = null;
+    let dryingCompleted = false;
+    
+    // 高温烧制变量
+    let firingInProgress = false;
+    let firingCompleted = false;
+    
+    // 初始化
+    document.addEventListener('DOMContentLoaded', () => {
+      // 绑定步骤点击事件
+      document.querySelectorAll('.step-image, .process-step button').forEach(el => {
+        el.addEventListener('click', () => {
+          const step = parseInt(el.getAttribute('data-step'));
+          openStepModal(step);
+        });
+      });
+      
+      // 绑定关闭模态框事件
+      closeModal.addEventListener('click', closeStepModal);
+      stepModal.addEventListener('click', (e) => {
+        if (e.target === stepModal) closeStepModal();
+      });
+      
+      // 原料拖拽事件
+      document.querySelectorAll('.material-item').forEach(item => {
+        item.addEventListener('dragstart', (e) => {
+          draggedMaterial = e.target.getAttribute('data-material');
+        });
+      });
+      
+      const mixingContainer = document.getElementById('mixing-container');
+      mixingContainer.addEventListener('dragover', (e) => e.preventDefault());
+      mixingContainer.addEventListener('drop', handleMaterialDrop);
+      
+      // 检查配比按钮
+      document.getElementById('check-mix').addEventListener('click', checkMixRatio);
+      
+      // 基础塑形部件选择
+      document.querySelectorAll('.part-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const part = item.getAttribute('data-part');
+          showGuide(`已选择${part}样式，瓦猫塑形更生动了！`);
+        });
+      });
+      
+      // 自由创作按钮
+      document.getElementById('free-draw').addEventListener('click', () => {
+        showGuide('进入自由创作模式，可以随意塑造瓦猫的独特形态~');
+      });
+      
+      // 修整工具点击
+      document.querySelectorAll('.tool-item').forEach(item => {
+        item.addEventListener('click', () => {
+          if (!dryingCompleted) {
+            showGuide('请先等待阴干完成再进行修整哦~');
+            return;
+          }
+          const tool = item.getAttribute('data-tool');
+          document.getElementById('repair-result').innerHTML = 
+            `<p class="text-kiln text-sm">使用${tool}修整后，瓦猫表面变得光滑细腻~</p>`;
+          showGuide(`使用${tool}修整后，瓦猫表面更加光滑了！`);
+        });
+      });
+      
+      // 开始烧制按钮
+      document.getElementById('start-firing').addEventListener('click', startFiring);
+      
+      // 釉色选择
+      document.querySelectorAll('.glaze-color').forEach(item => {
+        item.addEventListener('click', () => {
+          const color = item.getAttribute('data-color');
+          showGuide(`选择了${color}釉色，瓦猫会呈现古朴的${color}光泽~`);
+          setTimeout(() => {
+            closeStepModal();
+            openStepModal(5);
+          }, 1000);
+        });
+      });
+      
+      // 颜料选择
+      document.querySelectorAll('.pigment-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const color = item.getAttribute('data-color');
+          showGuide(`选择了${color}，可以用它绘制瓦猫的装饰细节~`);
+        });
+      });
+      
+      // 画笔选择
+      document.querySelectorAll('.brush-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const size = item.getAttribute('data-size');
+          showGuide(`选择了${size}号画笔，适合绘制不同粗细的线条~`);
+        });
+      });
+      
+      // 保存作品
+      document.getElementById('save-work').addEventListener('click', () => {
+        showGuide('作品保存成功！你的专属瓦猫制作完成了~');
+        setTimeout(closeStepModal, 1000);
+      });
+    });
+    
+    // 打开步骤浮窗
+    function openStepModal(step) {
+      currentStep = step;
+      
+      // 更新节点状态
+      document.querySelectorAll('.node-dot').forEach(dot => {
+        dot.classList.remove('active');
+      });
+      document.querySelector(`.node-dot[data-step="${step}"]`).classList.add('active');
+      
+      // 更新按钮状态
+      document.querySelectorAll('.process-step button').forEach(btn => {
+        btn.classList.remove('bg-clay', 'text-white');
+        btn.classList.add('bg-gray-300', 'text-gray-700');
+      });
+      document.querySelector(`.process-step button[data-step="${step}"]`).classList.remove('bg-gray-300', 'text-gray-700');
+      document.querySelector(`.process-step button[data-step="${step}"]`).classList.add('bg-clay', 'text-white');
+      
+      // 更新模态框内容
+      updateModalContent(step);
+      
+      // 显示模态框
+      stepModal.classList.remove('hidden');
+      
+      // 特殊处理：步骤3进入时启动阴干计时
+      if (step === 3 && !dryingCompleted) {
+        startDryingTimer();
+      }
+    }
+    
+    // 关闭步骤浮窗
+    function closeStepModal() {
+      stepModal.classList.add('hidden');
+    }
+    
+    // 更新模态框内容
+    function updateModalContent(step) {
+      // 隐藏所有内容
+      document.querySelectorAll('.modal-step-content').forEach(content => {
+        content.classList.add('hidden');
+      });
+      
+      // 显示当前步骤内容
+      document.getElementById(`content-${step}`).classList.remove('hidden');
+      
+      // 更新标题和引导文本
+      const titles = {
+        1: '原料制备：红土与细砂的配比',
+        2: '基础塑形：塑造瓦猫基本形态',
+        3: '晾晒修整：阴干与表面处理',
+        4: '高温烧制：龙窑中的蜕变',
+        5: '装饰赋色：赋予瓦猫灵魂'
+      };
+      
+      const guides = {
+        1: '工艺指导：请按红土7份、细砂3份的比例混合原料，拖拽原料到容器中',
+        2: '工艺指导：选择喜欢的嘴巴和耳朵样式，也可以点击"自由创作"发挥创意',
+        3: '工艺指导：阴干需要2分钟，完成后可用砂纸或刻刀修整表面',
+        4: '工艺指导：点击"开始烧制"按钮，完成后可选择喜欢的釉色',
+        5: '工艺指导：选择矿物颜料和画笔，为瓦猫添加装饰细节，完成后记得保存'
+      };
+      
+      modalTitle.textContent = titles[step];
+      modalTitle.className = `text-xl font-bold ${getStepColor(step)}`;
+      guideText.textContent = guides[step];
+    }
+    
+    // 获取步骤对应的颜色类
+    function getStepColor(step) {
+      const colors = {
+        1: 'text-clay',
+        2: 'text-sand',
+        3: 'text-kiln',
+        4: 'text-glaze',
+        5: 'text-gray-700'
+      };
+      return colors[step] || 'text-clay';
+    }
+    
+    // 处理原料拖拽
+    function handleMaterialDrop(e) {
+      e.preventDefault();
+      if (draggedMaterial === '红土' && clayCount < 7) {
+        clayCount++;
+      } else if (draggedMaterial === '细砂' && sandCount < 3) {
+        sandCount++;
+      }
+      
+      // 更新显示
+      document.getElementById('material-count').textContent = 
+        `红土：${clayCount} / 细砂：${sandCount}`;
+      
+      // 更新容器显示
+      const mixingContainer = document.getElementById('mixing-container');
+      if (clayCount + sandCount > 0) {
+        mixingContainer.innerHTML = `
+          <div class="flex flex-col items-center justify-center">
+            <div class="w-16 h-16 bg-clay rounded-full mb-2" 
+                 style="width: ${(clayCount / 7) * 80}px; height: ${(clayCount / 7) * 80}px;"></div>
+            <div class="w-10 h-10 bg-sand rounded-full" 
+                 style="width: ${(sandCount / 3) * 50}px; height: ${(sandCount / 3) * 50}px;"></div>
+          </div>
+          <div id="material-count" class="mt-3 text-sm text-gray-500">
+            红土：${clayCount} / 细砂：${sandCount}
+          </div>
+        `;
+      }
+      
+      // 检查是否可以验证配比
+      if (clayCount === 7 && sandCount === 3) {
+        const checkBtn = document.getElementById('check-mix');
+        checkBtn.classList.remove('cursor-not-allowed', 'opacity-50');
+        checkBtn.classList.add('cursor-pointer', 'opacity-100');
+        showGuide('配比看起来正确了，点击"检查配比"按钮确认吧~');
+      }
+    }
+    
+    // 检查配比
+    function checkMixRatio() {
+      if (clayCount === 7 && sandCount === 3) {
+        showGuide('配比正确！原料准备完成，即将进入塑形步骤~');
+        setTimeout(() => {
+          closeStepModal();
+          openStepModal(2);
+        }, 1500);
+      } else {
+        showGuide('配比不正确哦，正确比例是红土7份、细砂3份，请调整~');
+      }
+    }
+    
+    // 启动阴干计时器
+    function startDryingTimer() {
+      if (dryingInterval) clearInterval(dryingInterval);
+      dryingTime = 0;
+      dryingInterval = setInterval(() => {
+        dryingTime++;
+        const minutes = Math.floor(dryingTime / 60).toString().padStart(2, '0');
+        const seconds = (dryingTime % 60).toString().padStart(2, '0');
+        document.getElementById('drying-timer').textContent = `阴干中：${minutes}:${seconds}`;
+        
+        // 2分钟后阴干完成
+        if (dryingTime >= 120) {
+          clearInterval(dryingInterval);
+          dryingCompleted = true;
+          document.getElementById('drying-timer').textContent = '阴干完成';
+          showGuide('阴干完成！现在可以用砂纸或刻刀修整瓦猫表面了~');
+          
+          // 激活工具按钮
+          document.querySelectorAll('.tool-item').forEach(item => {
+            item.classList.remove('bg-gray-200');
+            item.classList.add('bg-kiln', 'text-white', 'cursor-pointer');
+          });
+        }
+      }, 1000);
+    }
+    
+    // 开始烧制
+    function startFiring() {
+      if (firingInProgress || firingCompleted) return;
+      
+      firingInProgress = true;
+      showGuide('龙窑已启动，高温烧制中...');
+      
+      // 显示火焰动画
+      const kilnFire = document.getElementById('kiln-fire');
+      kilnFire.classList.remove('opacity-0');
+      kilnFire.classList.add('opacity-100', 'animate-pulse');
+      
+      // 3秒后烧制完成
+      setTimeout(() => {
+        firingInProgress = false;
+        firingCompleted = true;
+        kilnFire.classList.remove('animate-pulse');
+        document.getElementById('glaze-result').querySelector('p').textContent = '选择喜欢的釉色';
+        document.getElementById('glaze-colors').classList.remove('hidden');
+        showGuide('烧制完成！选择一种釉色赋予瓦猫独特的光泽吧~');
+      }, 3000);
+    }
+    
+    // 显示引导文本
+    function showGuide(text) {
+      guideText.textContent = text;
+      
+      // 添加闪烁效果强调
+      guideText.classList.add('text-yellow-200');
+      setTimeout(() => {
+        guideText.classList.remove('text-yellow-200');
+      }, 500);
+    }
+  </script>
+</body>
+</html>
